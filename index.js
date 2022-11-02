@@ -2,12 +2,12 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT;
 
 app.use(bodyParser.json());
 
 app.listen(port, () => {
-    console.log(`servidor está rodando na porta ${port}`);
+    console.log(`servidor está rodando`);
 });
 
 app.get('/teste', (req, res) => {
