@@ -1,0 +1,28 @@
+{
+  "name": "orange-evolution-back",
+  "version": "1.0.0",
+  "description": "A **Orange Juice** disponibiliza para todos os estudantes e entusiastas de tecnologia suas trilhas de aprendizado para que as pessoas possam se aprofundar em seus conhecimentos. Hoje o acervo destas trilhas é disponibilizado através da plataforma Notion, como algumas pessoas possuem dificuldades em utilizar essa plataforma, surgiu a necessidade de criar algo mais intuitivo e que seja mais adequado para a disponibilização do conteúdo.\r Com o problema exposto cabe as *squads* criar uma solução web responsiva para a disponibilização das trilhas da Orange Evolution.\r Este repositório esta a cargo da Squad 35.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/squad35/orange-evolution-back.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/squad35/orange-evolution-back/issues"
+  },
+  "homepage": "https://github.com/squad35/orange-evolution-back#readme",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
