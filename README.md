@@ -33,4 +33,10 @@ A squad 35 tem como escopo inicial entregar as seguintes funcionalidades.
 * Início da Desk-Reserch (UX).
 * Criação dos repositórios.
 
-:calendar: 02 de Novembro de 2022
+:calendar: 02/03/04 de Novembro de 2022
+* Reuniões diárias com a squad.
+* Estudo sobre possíveis tecnologias a serem utilizadas no projeto.
+* Criação do projeto no Heroku.
+
+:calendar: 05 de Novembro de 2022
+* Criação do endpoint 'users' para criar, editar e buscar os usuários da plataforma.
