@@ -8,20 +8,18 @@ const User = function(user) {
 };
 
 User.create = (newUser, result) => {
-    sql.query('INSERT INTO users SET ?', newUser, (err, res) => {
+    sql.query('INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, $4)', [newUser.name, newUser.email, newUser.password, newUser.role], (err, res) => {
         if (err) {
             result(err, null);
-            console.log('erro: ', err);
             return;
         }
 
-        console.log('usuário criado: ', newUser);
         result(null, newUser);
     });
 };
 
 User.getAll = result => {
-    sql.query('SELECT * FROM users', (err, res) => {
+    sql.query('SELECT users.name FROM users', (err, res) => {
         if (err) {
             result(null, err);
             return;
@@ -32,15 +30,15 @@ User.getAll = result => {
 };
 
 User.getByEmail = (email, result) => {
-    sql.query(`SELECT * FROM users WHERE email = '${email}'`, (err, res) => {
+    sql.query('SELECT * FROM users WHERE email = $1', [email], (err, res) => {
         if(err) {
             result(err, null);
             return;
         }
 
         //se encontrar algum registro com a condição, retorná-o...
-        if(res.length) {
-            result(null, res[0]);
+        if(res.rowCount > 0) {
+            result(null, res);
             return;
         }
 
@@ -51,25 +49,52 @@ User.getByEmail = (email, result) => {
 
 User.update = (user, result) => {
     sql.query(
-        'UPDATE users SET name = ?, password = ?, role = ? WHERE email = ?',
+        'UPDATE users SET name = $1, password = $2, role = $3 WHERE email = $4',
         [user.name, user.password, user.role, user.email],
         (err, res) => {
             if(err) {
-                console.log('erro: ', err);
                 result(err, null);
                 return;
             }
 
-            if(res.affectedRows == 0) {
+            if(res.rowCount == 0) {
                 //não foi encontrado usuário com o email passado
                 result({kind: 'not_found'}, null);
                 return;
             }
 
-            console.log('usuário editado: ', user);
             result(null, user);
         }
     );
 };
+
+User.login = (user, result) => {
+    sql.query('SELECT * FROM users WHERE email = $1', [user.email], (err, res) => {
+        if (err) {
+            console.log('erros: ', err);
+            result(err, null);
+            return;
+        }
+
+        //se encontrar o usuário com o email iformado, verifica se as senhas batem...
+        if(res.rowCount > 0) {
+            console.log(res.rows[0].email);      
+            //Se as senhas baterem retorna os dados do usuário
+            if(res.rows[0].password === user.password) {
+                console.log('as senhas bateram');
+                result(null, res);
+                return;
+            }    
+            
+            //caso as senhas não baterem, retorna erro de validação...
+            console.log('as senhas não são iguais');
+            result({kind: 'invalid_password'});
+            return;
+        }
+
+        console.log('esta aqui');
+        result({kind: 'not_found'});
+    })
+}
 
 module.exports = User;

@@ -1,18 +1,16 @@
-const mysql = require('mysql');
+const Pool = require('pg').Pool;
 const dbConfig = require('../config/db.config.js');
 
 //Criando a conexão com o banco...
-const connection = mysql.createConnection({
-    host: dbConfig.HOST,
-    user: dbConfig.USER,
-    password: dbConfig.PASSWORD,
-    database: dbConfig.DB
+const pool = new Pool({
+    user: process.env.USER,
+    host: process.env.HOST,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE,
+    ssl: {
+        rejectUnauthorized: false
+    },
+    port: 5432
 });
 
-//open the mysql connection...
-connection.connect(error => {
-    if(error) throw error;
-    console.log('Banco de dados conectado com sucesso!');
-});
-
-module.exports = connection;
+module.exports = pool;

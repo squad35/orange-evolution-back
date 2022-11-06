@@ -40,3 +40,7 @@ A squad 35 tem como escopo inicial entregar as seguintes funcionalidades.
 
 :calendar: 05 de Novembro de 2022
 * Criação do endpoint 'users' para criar, editar e buscar os usuários da plataforma.
+
+:calendar: 06 de Novembro de 2022
+* Adicionado o endpoint login ao controlador de usuário, validando email e senhas.
+* Configurado as dependências e variáveis de ambiente para o deploy no Heroku.
