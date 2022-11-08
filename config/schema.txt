@@ -8,3 +8,43 @@ CREATE TABLE IF NOT EXISTS users (
     password varchar(255) NOT NULL,
     role varchar(50) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS content_type (
+	id SERIAL NOT NULL PRIMARY KEY,
+	name varchar(100) NOT NULL
+);
+
+INSERT INTO content_type (name) VALUES ('Apostila');
+INSERT INTO content_type (name) VALUES ('Artigo');
+INSERT INTO content_type (name) VALUES ('Curso');
+INSERT INTO content_type (name) VALUES ('Livro');
+INSERT INTO content_type (name) VALUES ('Vídeo');
+INSERT INTO content_type (name) VALUES ('Live');
+
+CREATE TABLE IF NOT EXISTS author (
+	id SERIAL NOT NULL PRIMARY KEY,
+	name varchar(255) NOT NULL
+);
+
+INSERT INTO author (name) VALUES ('Orange Juice');
+INSERT INTO author (name) VALUES ('Grupo Fcamara');
+INSERT INTO author (name) VALUES ('Aela');
+INSERT INTO author (name) VALUES ('Ateliware');
+INSERT INTO author (name) VALUES ('Awari');
+
+CREATE TABLE IF NOT EXISTS content (
+	id SERIAL NOT NULL PRIMARY KEY,
+	name varchar(255) NOT NULL,
+	content_type_id integer NOT NULL,
+    	author_id integer NOT NULL, 
+	duration integer NOT NULL,
+	link varchar(255) NOT NULL,
+    
+    CONSTRAINT content_type_fk FOREIGN KEY (content_type_id)
+    REFERENCES content_type (id),
+    CONSTRAINT author_fk FOREIGN KEY (author_id)
+    REFERENCES author (id)
+);
+
+INSERT INTO content (name, content_type_id, author_id, duration, link)
+VALUES ('Dev Junior', 5, 1, 3029, 'https://www.youtube.com/watch?v=qZ4ZKJSmf4k');
