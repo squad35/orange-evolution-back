@@ -1,22 +1,26 @@
 const Content = require('../models/content.js');
 
+const createContent = (content) => {
+    let newContent = new Content({
+        name: content.name,
+        contentTypeId: content.content_type_id,
+        authorId: content.author_id,
+        duration: content.duration,
+        link: content.link,
+        isActive: content.is_active != null ? content.is_active : 1
+    });
+
+    return newContent;
+}
+
 exports.create = async (req, res) => {
     //validando os dados do corpo da requisição...
     if(!req.body) {
         res.status(400).send({message: 'Os dados do conteúdo são obrigatórios'});
     }
 
-    //Criando um novo usuário...
-    const content = new Content({
-        name: req.body.name,
-        content_type_id: req.body.content_type_id,
-        author_id: req.body.author_id,
-        duration: req.body.duration || 0,
-        link: req.body.link
-    });
-
     //Salvando o novo usuário no banco de dados...
-    Content.create(content, (err, data) => {
+    Content.create(createContent(req.body), (err, data) => {
         if (err){
             if(err.message.includes('null value'))
                 res.status(400).send({message: 'os dados do conteúdo são obrigatórios e não podem ser nulos.'});
@@ -49,5 +53,37 @@ exports.getAll = (req, res) => {
             res.status(500).send({message: err.message || 'Houve um erro ao recuperar os conteúdos, por favor tente mais tarde!'});
         else
             res.status(200).send(data.rows);
+    });
+};
+
+exports.getActive = (req, res) => {
+    Content.getActive((err, data) => {
+        if(err)
+            res.status(500).send({message: err.message || 'Houve um erro ao recuperar os conteúdos, por favor tente mais tarde!'});
+        else
+            res.status(200).send(data.rows);
+    });
+};
+
+exports.update = (req, res) => {
+    console.log(req.body)
+    //validando o corpo da requisição
+    if(!req.body) {
+        res.status(400).send({message: 'Os dados do usuário são obrigatórios e não podem ser nulos'});
+    }
+
+    Content.update(req.params.id, createContent(req.body), (err, data) => {
+        if(err) {
+            if(err.kind === 'not_found')
+                res.status(404).send({message: `usuário não encontrado.`});
+            else if(err.message.includes('null value'))
+                res.status(400).send({message: 'os dados do usuário são obrigatórios e não podem ser nulos.'});
+            else 
+                res.status(500).send({message: 'Houve um erro ao tentar editar o usuário, por favor tente mais tarde!'});
+        }
+        else
+        {
+            res.send(data);
+        }
     });
 };
