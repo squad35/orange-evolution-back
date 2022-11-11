@@ -1,26 +1,33 @@
 const User = require('../models/user.js');
 
+const createUser = (user, itsUpdated = false) => {
+    let newUser = new User({
+        email : user.email,
+        firstName : user.first_name,
+        lastName : user.last_name,
+        password : user.password,
+        image : user.image == null || user.image == ""  ? null : user.image,
+        newsletter : user.newsletter,
+        role : itsUpdated == true ? user.role : "user"
+    });
+    console.log(newUser);
+
+    return newUser;
+}
+
 exports.create = async (req, res) => {
     //validando os dados do corpo da requisição...
     if(!req.body) {
         res.status(400).send({message: 'Os dados do usuário são obrigatórios'});
     }
 
-    //Criando um novo usuário...
-    const user = new User({
-        email: req.body.email,
-        name: req.body.name,
-        password: req.body.password,
-        role: 'user' 
-    });
-
     //Salvando o novo usuário no banco de dados...
-    User.create(user, (err, data) => {
+    User.create(createUser(req.body), (err, data) => {
         if (err){
             if(err.message.includes('null value'))
                 res.status(400).send({message: 'os dados do usuário são obrigatórios e não podem ser nulos.'});
             else if(err.message.includes('duplicate key'))
-                res.status(422).send({message: `Já existe um usuário com o email ${user.email} cadastrado em nosso sistema.`});
+                res.status(422).send({message: `Já existe um usuário com o email ${req.body.email} cadastrado em nosso sistema.`});
             else
                 res.status(500).send({message: 'Houve um erro ao criar o usuário, por favor tente mais tarde!.'});
         }
@@ -59,7 +66,7 @@ exports.update = (req, res) => {
         res.status(400).send({message: 'Os dados do usuário são obrigatórios e não podem ser nulos'});
     }
 
-    User.update(new User(req.body), (err, data) => {
+    User.update(createUser(req.body, true), (err, data) => {
         if(err) {
             if(err.kind === 'not_found')
                 res.status(404).send({message: `usuário não encontrado.`});

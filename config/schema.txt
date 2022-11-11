@@ -4,47 +4,61 @@ use orange_evolution;
 
 CREATE TABLE IF NOT EXISTS users (
     email varchar(255) NOT NULL PRIMARY KEY,
-    name varchar(255) NOT NULL,
+    first_name varchar(255) NOT NULL,
+    last_name varchar(255) NOT NULL,
     password varchar(255) NOT NULL,
+	image varchar(255),
+	newsletter smallint,
     role varchar(50) NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS content_type (
+CREATE TABLE IF NOT EXISTS content_types (
 	id SERIAL NOT NULL PRIMARY KEY,
 	name varchar(100) NOT NULL
 );
 
-INSERT INTO content_type (name) VALUES ('Apostila');
-INSERT INTO content_type (name) VALUES ('Artigo');
-INSERT INTO content_type (name) VALUES ('Curso');
-INSERT INTO content_type (name) VALUES ('Livro');
-INSERT INTO content_type (name) VALUES ('Vídeo');
-INSERT INTO content_type (name) VALUES ('Live');
+INSERT INTO content_types (name) VALUES ('Apostila');
+INSERT INTO content_types (name) VALUES ('Artigo');
+INSERT INTO content_types (name) VALUES ('Curso');
+INSERT INTO content_types (name) VALUES ('Livro');
+INSERT INTO content_types (name) VALUES ('Vídeo');
+INSERT INTO content_types (name) VALUES ('Live');
 
-CREATE TABLE IF NOT EXISTS author (
+CREATE TABLE IF NOT EXISTS authors (
 	id SERIAL NOT NULL PRIMARY KEY,
 	name varchar(255) NOT NULL
 );
 
-INSERT INTO author (name) VALUES ('Orange Juice');
-INSERT INTO author (name) VALUES ('Grupo Fcamara');
-INSERT INTO author (name) VALUES ('Aela');
-INSERT INTO author (name) VALUES ('Ateliware');
-INSERT INTO author (name) VALUES ('Awari');
+INSERT INTO authors (name) VALUES ('Orange Juice');
+INSERT INTO authors (name) VALUES ('Grupo Fcamara');
+INSERT INTO authors (name) VALUES ('Aela');
+INSERT INTO authors (name) VALUES ('Ateliware');
+INSERT INTO authors (name) VALUES ('Awari');
 
-CREATE TABLE IF NOT EXISTS content (
+CREATE TABLE IF NOT EXISTS contents (
 	id SERIAL NOT NULL PRIMARY KEY,
 	name varchar(255) NOT NULL,
 	content_type_id integer NOT NULL,
-    	author_id integer NOT NULL, 
+    author_id integer NOT NULL, 
 	duration integer NOT NULL,
 	link varchar(255) NOT NULL,
+	image varchar(255),
+	description varchar(255),
+	created_at date NOT NULL,
+	updated_at date,
+	is_active smallint NOT NULL,
     
     CONSTRAINT content_type_fk FOREIGN KEY (content_type_id)
-    REFERENCES content_type (id),
+    REFERENCES content_types (id),
     CONSTRAINT author_fk FOREIGN KEY (author_id)
-    REFERENCES author (id)
+    REFERENCES authors (id)
 );
 
-INSERT INTO content (name, content_type_id, author_id, duration, link)
+INSERT INTO contents (name, content_type_id, author_id, duration, link)
 VALUES ('Dev Junior', 5, 1, 3029, 'https://www.youtube.com/watch?v=qZ4ZKJSmf4k');
+
+--10/11/2022
+alter table content add column description varchar(255);
+alter table content add column image varchar(255);
+alter table content add column created_at date;
+alter table content add column updated_at date;

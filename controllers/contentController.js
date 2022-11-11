@@ -1,13 +1,17 @@
 const Content = require('../models/content.js');
 
-const createContent = (content) => {
+const createContent = (content, itsUpdate = false) => {
     let newContent = new Content({
         name: content.name,
         contentTypeId: content.content_type_id,
         authorId: content.author_id,
         duration: content.duration,
         link: content.link,
-        isActive: content.is_active != null ? content.is_active : 1
+        isActive: content.is_active != null ? content.is_active : 1,
+        description: content.description,
+        createdAt: itsUpdate == true ? null : new Date(),
+        updatedAt: itsUpdate == true ? new Date() : null,
+        image: content.image != null ? content.image : ''
     });
 
     return newContent;
@@ -66,13 +70,12 @@ exports.getActive = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    console.log(req.body)
     //validando o corpo da requisição
     if(!req.body) {
         res.status(400).send({message: 'Os dados do usuário são obrigatórios e não podem ser nulos'});
     }
 
-    Content.update(req.params.id, createContent(req.body), (err, data) => {
+    Content.update(req.params.id, createContent(req.body, true), (err, data) => {
         if(err) {
             if(err.kind === 'not_found')
                 res.status(404).send({message: `usuário não encontrado.`});

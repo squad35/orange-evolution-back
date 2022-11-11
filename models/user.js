@@ -2,14 +2,20 @@ const sql = require('./db.js');
 
 const User = function(user) {
     this.email = user.email;
-    this.name = user.name;
+    this.firstName = user.firstName;
+    this.lastName = user.lastName;
     this.password = user.password;
+    this.image = user.image;
+    this.newsletter = user.newsletter;
     this.role = user.role;
 };
 
 User.create = (newUser, result) => {
-    sql.query('INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, $4)', [newUser.name, newUser.email, newUser.password, newUser.role], (err, res) => {
+    sql.query('INSERT INTO users (email, first_name, last_name, password, image, newsletter, role) ' +
+            'VALUES ($1, $2, $3, $4, $5, $6, $7)', [newUser.email, newUser.firstName, newUser.lastName,
+             newUser.password, newUser.image, newUser.newsletter, newUser.role], (err, res) => {
         if (err) {
+            console.log('erro: ', err);
             result(err, null);
             return;
         }
@@ -19,7 +25,7 @@ User.create = (newUser, result) => {
 };
 
 User.getAll = result => {
-    sql.query('SELECT users.name FROM users', (err, res) => {
+    sql.query('SELECT users.first_name FROM users', (err, res) => {
         if (err) {
             result(null, err);
             return;
@@ -49,10 +55,12 @@ User.getByEmail = (email, result) => {
 
 User.update = (user, result) => {
     sql.query(
-        'UPDATE users SET name = $1, password = $2, role = $3 WHERE email = $4',
-        [user.name, user.password, user.role, user.email],
+        'UPDATE users SET first_name = $1, last_name = $2, password = $3, image = $4, ' +
+        'newsletter = $5, role = $6 WHERE email = $7',
+        [user.firstName, user.lastName, user.password, user.image, user.newsletter, user.role, user.email],
         (err, res) => {
             if(err) {
+                console.log('erro: ', err);
                 result(err, null);
                 return;
             }
@@ -81,18 +89,15 @@ User.login = (user, result) => {
             console.log(res.rows[0].email);      
             //Se as senhas baterem retorna os dados do usuário
             if(res.rows[0].password === user.password) {
-                console.log('as senhas bateram');
                 result(null, res);
                 return;
             }    
             
             //caso as senhas não baterem, retorna erro de validação...
-            console.log('as senhas não são iguais');
             result({kind: 'invalid_password'});
             return;
         }
 
-        console.log('esta aqui');
         result({kind: 'not_found'});
     })
 }
