@@ -3,7 +3,7 @@ const express = require('express');
 
 const router = express.Router();
 
-router.get('/:id', Session.getByTrail);
+router.get('/trail/:id', Session.getByTrail);
 router.post('/', Session.create);
 router.delete('/', Session.deleteById);
 

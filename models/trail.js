@@ -1,4 +1,5 @@
 const sql = require('./db.js');
+const Session = require('./session.js');
 
 const Trail = function(trail) {
     this.name = trail.name;
@@ -7,6 +8,7 @@ const Trail = function(trail) {
     this.createdAt = trail.createdAt;
     this.updatedAt = trail.updatedAt;
     this.isActive = trail.isActive;
+    this.Sessions = [];
 };
 
 Trail.create = (newTrail, result) => {
@@ -52,8 +54,7 @@ Trail.getAll = result => {
             console.log(err);
             result(null, err);
             return;
-        }
-
+        } 
         result(null, res);
     });
 };

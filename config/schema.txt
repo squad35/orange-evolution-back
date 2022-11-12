@@ -43,7 +43,7 @@ CREATE TABLE IF NOT EXISTS contents (
 	duration integer NOT NULL,
 	link varchar(255) NOT NULL,
 	image varchar(255),
-	description varchar(255),
+	description varchar(4000),
 	created_at date NOT NULL,
 	updated_at date,
 	is_active smallint NOT NULL,
@@ -81,4 +81,35 @@ CREATE TABLE sessions (
 
 	CONSTRAINT trail_fk FOREIGN KEY (trail_id)
 	REFERENCES trails (id)
+);
+
+CREATE TABLE items (
+    id SERIAL PRIMARY KEY NOT NULL,
+    content_id bigint NOT NULL,
+    session_id bigint NOT NULL,
+	is_active smallint NOT NULL
+);
+
+CREATE TABLE user_trails (
+	id SERIAL PRIMARY KEY NOT NULL,
+	user_email varchar(255) NOT NULL,
+	trail_id bigint NOT NULL,
+	status smallint,
+
+	CONSTRAINT user_fk FOREIGN KEY (user_email)
+	REFERENCES users (email),
+	CONSTRAINT trail_fk FOREIGN KEY (trail_id)
+	REFERENCES trails (id)
+);
+
+CREATE TABLE user_items (
+    id SERIAL PRIMARY KEY NOT NULL,
+    user_email varchar(255) NOT NULL,
+    item_id bigint NOT NULL,
+    completed smallint NOT NULL,
+    
+    CONSTRAINT user_fk FOREIGN KEY (user_email)
+    REFERENCES users (email),
+    CONSTRAINT item_fk FOREIGN KEY (item_id)
+    REFERENCES items (id)    
 );

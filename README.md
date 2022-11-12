@@ -59,3 +59,8 @@ A squad 35 tem como escopo inicial entregar as seguintes funcionalidades.
 	* Trails
 	* Sessions
 * Criado todos os endpoints dos modelos acima para criar, buscar e editar.
+
+:calendar: 12 de Novembro de 2022
+* Criado os seguintes modelos e controllers.
+	* UserTrails - Para controlar as trilhas que o usuário esta inscrito.
+	* UserItems - Para controlar os conteúdos já consumidos pelo usuário.
