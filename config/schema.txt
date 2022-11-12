@@ -62,3 +62,23 @@ alter table content add column description varchar(255);
 alter table content add column image varchar(255);
 alter table content add column created_at date;
 alter table content add column updated_at date;
+
+--11/11/2022
+CREATE TABLE trails (
+    id serial  PRIMARY KEY NOT NULL,
+    name varchar(255) NOT NULL,
+    image varchar(255),
+    description varchar(4000),
+	created_at date NOT NULL,
+	updated_at date,
+	is_active smallint NOT NULL
+);
+
+CREATE TABLE sessions (
+	id SERIAL PRIMARY KEY NOT NULL,
+	name varchar(255) NOT NULL,
+	trail_id bigint NOT NULL,
+
+	CONSTRAINT trail_fk FOREIGN KEY (trail_id)
+	REFERENCES trails (id)
+);

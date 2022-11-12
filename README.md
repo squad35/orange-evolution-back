@@ -53,3 +53,9 @@ A squad 35 tem como escopo inicial entregar as seguintes funcionalidades.
 	* get/actives - retorna todos os conteúdos ativos.
 	* put/:id - edita um conteúdo de um determinado id.
 * Refatorado o código de inserção de um novo conteúdo no banco.
+
+:calendar: 09/10 e 11 de Novembro de 2022
+* Criado os seguintes modelos e controllers
+	* Trails
+	* Sessions
+* Criado todos os endpoints dos modelos acima para criar, buscar e editar.
