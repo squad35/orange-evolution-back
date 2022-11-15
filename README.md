@@ -64,3 +64,7 @@ A squad 35 tem como escopo inicial entregar as seguintes funcionalidades.
 * Criado os seguintes modelos e controllers.
 	* UserTrails - Para controlar as trilhas que o usuário esta inscrito.
 	* UserItems - Para controlar os conteúdos já consumidos pelo usuário.
+	
+:calendar: 13/14 e 15 de Novembro de 2022
+* Criado o endpoint para pesquisar conteúdos pelo nome.
+* Término da documentação no Swagger.
